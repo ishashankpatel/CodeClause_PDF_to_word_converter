@@ -5,9 +5,10 @@ import axios from 'axios';
 import iconn from './w.png';
 
 function App() {
+  
   const [fil, setfil] = useState('');
   const data = new FormData();
-  
+  const[warning,setwarning]=useState('');
   const options = {
     method: 'POST',
     url: 'https://pdf4me.p.rapidapi.com/RapidApi/ConvertPdfToWord',
@@ -32,12 +33,14 @@ function App() {
 
 async function cnvt(){
 
-
+ 
   console.log(data)
 await axios.request(options).then(function (response) {
     console.log(response.data);
+    setwarning("API limit exceeds, get txt of pdf")
   }).catch(function (error) {
     console.error(error);
+    setwarning("API limit exceeds, get txt of pdf")
   });
 }
 
@@ -50,10 +53,23 @@ await axios.request(options).then(function (response) {
       
       <h1>PDF to WORD</h1></div>
       <div className='cont'>
-       <input className='inputt' type={"file"} name="Upload" accept='application/pdf' value={fil} onChange={e=> setfil(e.target.value)} />
-      <button onClick={cnvt} className='btn' >Convert & Download</button>
-     
+        <div className='contt'>
+        {/* <form action="https://v2.convertapi.com/convert/pdf/to/txt?Secret=tA67ZfcNPgO4Iukp&download=attachment" method="post" enctype="multipart/form-data">
+       <input className='inputt' type={"file"} name="File" accept='application/pdf' value={fil} onChange={e=> setfil(e.target.value) } />
+      <input type={"submit"} onClick={cnvt} className='btn' value={"convert file"} />
+      </form> */}
+
+      <form action="https://v2.convertapi.com/convert/pdf/to/txt?Secret=mN63yftP9pQOxOF4&download=attachment" method="post" enctype="multipart/form-data">
+            <input type="file" name="File" className='inputt' accept='application/pdf' value={fil} onChange={e=>setfil(e.target.value)} />
+            <input type="submit" value="Convert file" onClick={cnvt} className='btn' />
+        </form>
+
+
+
+      </div>
+     <h4 className='warn'>{warning}</h4>
      </div>
+      
        {/* <body>
         <form action="https://v2.convertapi.com/convert/pdf/to/txt?Secret=tA67ZfcNPgO4Iukp&download=attachment" method="post" enctype="multipart/form-data">
             <input type="file" name="File" />
